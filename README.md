@@ -74,10 +74,6 @@ Expected results, mark assumptions).
 **Output:** 8 cases (R1 to R8).
 
 
-## Exercise 2: Reorder point
-
-Spec: ROP = (average daily usage x lead time in days) + safety stock.
-
 | ID | Type | Input | Expected |
 |---|---|---|---|
 | R1 | Positive | usage 5/day, lead time 10 days, safety stock 20 | ROP = 70 (5 x 10 + 20) |
