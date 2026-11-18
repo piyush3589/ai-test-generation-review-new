@@ -42,6 +42,10 @@ marked is in `test_cases.md`.
 
 **Spec:** Reorder point (ROP) = (average daily usage x lead time in days) + safety stock.
 
+**Prompt:** Role (QA engineer for an inventory system), Context (the ROP formula), Task (8 test cases),
+Format (table: ID, Type, Input, Expected), Rules (positive, negative and boundary cases, specific
+Expected results, mark assumptions).
+
 **Output:** 8 cases (R1 to R8).
 
 ### Weak cases found
