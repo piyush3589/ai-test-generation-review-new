@@ -29,6 +29,31 @@ cases, near-duplicate traps, specific Expected results with a reason, no repeats
 **Output:** 20 cases (6 positive, 7 negative, 7 boundary). A selection with assumptions
 marked is in `test_cases.md`.
 
+Action for every case: run duplicate detection on Part A and Part B.
+
+| ID | Type | Part A / Part B | Expected |
+|---|---|---|---|
+| TC01 | Positive | "Bearing 6204 ZZ" / "Bearing 6204 ZZ" | Duplicate flag, exact match |
+| TC02 | Positive | "BEARING 6204-ZZ" / "bearing 6204 ZZ" | Duplicate, only case and hyphen differ |
+| TC03 | Positive | "Gate Valve 2 in SS304" / "Gate Valve 2 inch SS304" | Duplicate, "in" and "inch" are the same unit |
+| TC04 | Positive | "SS304 Gate Valve 2 inch" / "Gate Valve 2 inch SS304" | Duplicate, only word order differs |
+| TC05 | Positive | "Hex Bolt M10x50 GI" / "Hexagon Bolt M10x50 GI" | Duplicate, same size and material |
+| TC06 | Positive | "Washer 10 mm" / "Washer 10mm" | Duplicate, only a space differs |
+| TC07 | Negative | "Bearing 6204 ZZ" / "Bearing 6205 ZZ" | Not duplicate, model number differs |
+| TC08 | Negative | "Gate Valve 2 inch SS304" / "Gate Valve 3 inch SS304" | Not duplicate, size differs |
+| TC09 | Negative | "Gate Valve 2 inch SS304" / "Gate Valve 2 inch SS316" | Not duplicate, material differs |
+| TC10 | Negative | "Hex Bolt M10x50" / "Hex Bolt M10x60" | Not duplicate, length differs |
+| TC11 | Negative | "Bolt M12 LH" / "Bolt M12 RH" | Not duplicate, thread direction differs |
+| TC12 | Negative | "Flange 4 inch 150#" / "Flange 4 inch 300#" | Not duplicate, pressure rating differs |
+| TC13 | Negative | "Bearing 6204 ZZ" / "Bearing 6204 2RS" | Not duplicate, shield vs seal type differs |
+| TC14 | Boundary | Both descriptions empty | Not duplicate, "missing data" error |
+| TC15 | Boundary | "Bearing 6204 ZZ" / empty | Not duplicate, error or skip, no crash |
+| TC16 | Boundary | 500-character description, identical in both / last character differs in one | Identical: duplicate. Different: per spec |
+| TC17 | Boundary | `Valve 2" SS304` / `Valve 2 in SS304` | Duplicate, special character handled |
+| TC18 | Boundary | Similarity score exactly at the threshold | Per spec (score >= threshold is a duplicate) |
+| TC19 | Boundary | A record compared with itself | Not duplicate, same record ID, self-match skipped |
+| TC20 | Boundary | "Bearing 6204 ZZ " (trailing space) / "Bearing 6204 ZZ" | Duplicate, whitespace trimmed |
+
 ### Weak cases found
 
 | ID | Problem | Fix |
@@ -47,6 +72,22 @@ Format (table: ID, Type, Input, Expected), Rules (positive, negative and boundar
 Expected results, mark assumptions).
 
 **Output:** 8 cases (R1 to R8).
+
+
+## Exercise 2: Reorder point
+
+Spec: ROP = (average daily usage x lead time in days) + safety stock.
+
+| ID | Type | Input | Expected |
+|---|---|---|---|
+| R1 | Positive | usage 5/day, lead time 10 days, safety stock 20 | ROP = 70 (5 x 10 + 20) |
+| R2 | Positive | usage 2/day, lead time 7 days, safety stock 0 | ROP = 14 |
+| R3 | Boundary | usage 0, lead time 10 days, safety stock 20 | ROP = 20 |
+| R4 | Boundary | usage 5/day, lead time 0 days, safety stock 20 | ROP = 20 |
+| R5 | Negative | usage -5/day, lead time 10 days, safety stock 20 | System rejects the input |
+| R6 | Positive | usage 3.3/day, lead time 7 days, safety stock 5 | ROP is rounded appropriately |
+| R7 | Positive | usage 5/day, lead time 10 days, safety stock 20 | ROP is 70 |
+| R8 | Negative | usage 5/day, lead time 2 weeks, safety stock 20 | System converts to 14 days and gives 90 |
 
 ### Weak cases found
 
