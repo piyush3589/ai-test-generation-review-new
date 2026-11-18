@@ -26,8 +26,7 @@ names look similar. Example: "Bearing 6204 ZZ" and "Bearing 6205 ZZ" are differe
 Format (table: ID, Type, Input, Action, Expected), Rules (at least 6 negative and 4 boundary
 cases, near-duplicate traps, specific Expected results with a reason, no repeats).
 
-**Output:** 20 cases (6 positive, 7 negative, 7 boundary). A selection with assumptions
-marked is in `test_cases.md`.
+**Output:** 20 cases (6 positive, 7 negative, 7 boundary).
 
 Action for every case: run duplicate detection on Part A and Part B.
 
